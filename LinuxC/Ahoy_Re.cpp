@@ -76,6 +76,10 @@ void PrintScrn(int*tower,int num) {
 
 		printf("\n");
 	}
+
+	free(PrintArr1);
+	free(PrintArr2);
+	free(PrintArr3);
 	printf("-----A-----\t\t-----B-----\t\t-----C-----\n");
 }
 
@@ -192,7 +196,7 @@ int main() {
 	seq = (int*)calloc(SEQ_SIZE(num), sizeof(int));
 	seq = MakeSeq(num, seq);
 
-#if 1
+#if 0
 	for (int i = 0; i < SEQ_SIZE(num); i++) {
 		printf("%d", seq[i]);
 	}
@@ -201,7 +205,7 @@ int main() {
 #endif
 	tower[0] = SEQ_SIZE(num);
 	AhoyMove(num, seq, top, tower);
+	free(seq);
 
 	return 0;
-
 }
