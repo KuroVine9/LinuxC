@@ -2,16 +2,6 @@
 
 #include <stdio.h>
 
-unsigned int trsf(char* bp, unsigned int dec) {
-	dec <<= 1;
-	dec += *bp - '0';
-	if (*++bp != '\0') {
-		dec = trsf(bp, dec);
-	}
-
-	return dec;
-}
-
 int main() {
 	unsigned int dec = 0;
 	char binary[40];
@@ -21,7 +11,12 @@ int main() {
 	scanf("%[01]", binary);
 
 	bp = binary;
-	dec = trsf(bp, dec);
+	
+	do {
+		dec <<= 1;
+		dec += *bp - '0';
+	} while (*++bp != '\0');
+
 
 	printf("\n%s = %d", binary, dec);
 

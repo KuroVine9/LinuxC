@@ -3,15 +3,14 @@
 #include <stdio.h>
 
 int main() {
-	int i, j, size;
+	int i, j, size, max_count;
 	int* dp;
-	int dim[5][5] = {
-		 {4,5,7,8,9}
+	int dim[5][5] = 
+	   { {4,5,7,8,9}
 		,{5,2,4,6,2}
 		,{4,7,8,5,2}
 		,{3,5,8,9,6}
 		,{7,5,6,9,8} };
-	int max_count;
 
 	max_count = sizeof(dim) / sizeof(dim[0]);
 	size = sizeof(dim) / sizeof(int);
@@ -48,4 +47,6 @@ int main() {
 		printf("\n");
 	}
 	printf("\n");
+
+	return 0;
 }

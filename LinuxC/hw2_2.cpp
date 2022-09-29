@@ -12,8 +12,11 @@ int main() {
 	app = array;
 
 	for (i = 0; i < 5; i++) {
+		//printf("%p ", array[i]);
 		*app++ = (int*)calloc(10, sizeof(int));
+		//printf("%p\n", array[i]);
 	}
+	printf("\n");
 	
 	app = array;
 	for (i = 0; i < 5; i++) {
