@@ -4,18 +4,15 @@ template <class T>
 
 class ArrayList {
 	typedef struct Node {
+		Node(T data = NULL, Node* next = nullptr) : data{ data }, next{ next } {}
 		T data;
 		Node* next;
 	} Node;
 private:
 	int list_size;
-public:
 	Node start;
-	ArrayList() : start() {
-		list_size = 0;
-		start.data = NULL;
-		start.next = nullptr;
-	}
+public:
+	ArrayList() : start(), list_size(0) {}
 
 	ArrayList& add(T val) {
 		if (list_size == 0) {
@@ -27,7 +24,6 @@ public:
 			last = &start;
 			Node* temp = new Node;
 			temp->data = val;
-			temp->next = nullptr;
 
 			while (last->next != nullptr) last = last->next;
 			last->next = temp;
@@ -40,7 +36,6 @@ public:
 		Node* last = &start;
 		Node* temp = new Node;
 		temp->data = val;
-		temp->next = nullptr;
 
 		for (; index > 1; index--) last = last->next;
 		if (last->next->next != nullptr) temp->next = last->next;
@@ -58,10 +53,8 @@ public:
 		}
 		else {
 			Node* last = &start;
-			Node* start = new Node;
+			Node* start = new Node(list.start.data, list.start.next);
 
-			start->data = list.start.data;
-			start->next = list.start.next;
 			while (last->next != nullptr) last = last->next;
 			last->next = start;
 
@@ -92,7 +85,7 @@ public:
 		Node* temp = new Node;
 		Node* temp_start = temp;
 		T temp_data = NULL;
-		temp->data = NULL;
+
 		temp->next = last;
 		if (index == 0) {
 			temp_data = start.data;
@@ -121,7 +114,7 @@ public:
 		Node* last = &start;
 		Node* temp = new Node;
 		Node* temp_start = temp;
-		temp->data = NULL;
+
 		temp->next = last;
 		do {
 			if (last->data == val) break;
