@@ -56,7 +56,7 @@ public:
 			Node* start = new Node(list.start.data, list.start.next);
 
 			while (last->next != nullptr) last = last->next;
-			last->next = start;
+			last->next = start;	// 시작 주소뿐만 아닌 모든 노드를 "복사"해야함
 
 			this->list_size += list.list_size;
 		}
@@ -110,7 +110,7 @@ public:
 		return temp_data;
 	}
 
-	bool remove(T val) {
+	bool remove(T val) {	// 오버로딩?
 		Node* last = &start;
 		Node* temp = new Node;
 		Node* temp_start = temp;
@@ -123,10 +123,9 @@ public:
 		} while (last->next != nullptr);
 
 		if (last->data == val && last == &start) {
-			last = last->next;
+			if(list_size != 1) last = last->next;
 			start.data = last->data;
 			start.next = last->next;
-			delete(last);
 			delete(temp_start);
 			list_size--;
 			return true;
@@ -171,10 +170,15 @@ public:
 		return (last->data == val);
 	}
 
-	T get(int index) {
+	T& get(int index) {
 		Node* last = &start;
 		for (; index > 0; index--) last = last->next;
 		return last->data;
+	}
+
+	ArrayList& set(int index, T val) {
+		get(index) = val;
+		return *this;
 	}
 
 	int indexOf(T val) {
@@ -203,30 +207,37 @@ public:
 		}
 		return output;
 	}
+
+	void testfunc(int x);
 };
+
+template <class T> void ArrayList<T>::testfunc(int x) {
+	std::cout << 1;
+}
 
 int main() {
 	using std::cout;
 	using std::endl;
+	using std::cin;
 
-	ArrayList<char> a, b;
-	a.add('a').add('b').add('c');
-	b.add('z').add('f');
+	ArrayList<char> a;
+	int count;
+	int temp;
 
-	a.add(1, 'y');
-	a.remove('c');
+	cin >> count;
+	for (int i = 0; i < count; i++) {
+		cin >> temp;
+		a.add(temp);
+	}
 
-	for (int i = 0; i < a.size(); i++) cout << a.get(i);
-	cout << endl;
-	for (int i = 0; i < b.size(); i++) cout << b.get(i);
-	cout << endl;
-
-	a += b;
-	for (int i = 0; i < a.size(); i++) cout << a.get(i);
-	cout << endl;
-
-	b.clear();
-	cout << b.isEmpty();
+	while (a.size()!=0) {
+		int min = a.get(0);
+		for (int i = 0; i < a.size(); i++) {
+			if (min > a.get(i)) min = a.get(i);
+		}
+		a.remove(min);
+		cout << min << endl;
+	}
 
 	return 0;
 }
