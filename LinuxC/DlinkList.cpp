@@ -87,6 +87,14 @@ public:
 		}
 		return search->data;
 	}
+	T& front() {
+		return start_point->data;
+	}
+	T& back() {
+		Node* search = start_point;
+		for (; search->next != nullptr; search = search->next);
+		return search->data;
+	}
 	DlinkList& push_back(T val) {
 		Node* newNode = new Node(val);
 		if (start_point == nullptr) {
@@ -106,20 +114,30 @@ public:
 		newNode->next = start_point;
 		start_point->prev = newNode;
 		start_point = newNode;
+		list_size++;
 		return *this;
 	}
 	DlinkList& pop_back() {
 		Node* search;
 		for (search = start_point; search->next != nullptr; search = search->next);
-		search->prev->next = nullptr;
-		delete(search);
+		if (search == start_point) { start_point = nullptr; }
+		else { search->prev->next = nullptr; }
+		delete search;
+		list_size--;
 		return *this;
 	}
 	DlinkList& pop_front() {
-		Node* search = start_point->next;
-		start_point->next->prev = nullptr;
-		delete(start_point);
-		start_point = search;
+		if (start_point->next == nullptr) {
+			delete start_point;
+			start_point = nullptr;
+		}
+		else {
+			Node* search = start_point->next;
+			start_point->next->prev = nullptr;
+			delete start_point;
+			start_point = search;
+		}
+		list_size--;
 		return *this;
 	}
 	iterator erase(iterator iter) {
@@ -134,8 +152,10 @@ public:
 		}
 		search = search->next;
 		delete(iter.search_point);
+		list_size--;
 		return iterator(search);
 	}
+
 
 	iterator begin() { return iterator(start_point); }
 	iterator end() { return iterator(); }
@@ -168,7 +188,15 @@ int main() {
 	for (auto a : d) {
 		cout << a << endl;
 	}
+
+	cout << "=====" << endl << endl;
+	d.pop_back().pop_back().pop_back().pop_back();
+	d.push_back(5050);
+	d.pop_front();
+	d.push_back(123);
+	cout << d.front()<<d.back()<<*(d.begin()) << endl;
 	//copy(d.begin(), d.end(), ostream_iterator<int>(cout, "\n"));
+	
 	
 	return 0;
 }
