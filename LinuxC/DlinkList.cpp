@@ -13,10 +13,16 @@ template <typename T>
 class DlinkList {
 	typedef struct _Node<T> Node;
 private:
-	Node* start_point;
+	Node* start_point, *end_point;
 	int list_size;
 public:
-	DlinkList() : start_point(nullptr), list_size(0) {}
+	DlinkList() : start_point(nullptr), end_point(nullptr), list_size(0) {}
+	~DlinkList() {
+		for (Node* temp = start_point, *search = start_point; temp != nullptr; search = temp) {
+			temp = search->next;
+			delete search;
+		}
+	}
 	class iterator {
 	public:
 		Node* search_point;
@@ -102,7 +108,7 @@ public:
 		}
 		else {
 			Node* search;
-			for (search = start_point; search->next != nullptr; search = search->next);
+			for (search = start_point; search->next != nullptr; search = search->next){}
 			search->next = newNode;
 			newNode->prev = search;
 		}
@@ -181,7 +187,7 @@ int main() {
 	}
 	DlinkList<int>::iterator iter;
 	for (iter = d.begin(); iter != d.end();) {
-		if (*iter == -100) iter = d.erase(iter);
+		if (*iter == 0) iter = d.erase(iter);
 		else ++iter;
 	}
 	cout << endl;
@@ -194,7 +200,7 @@ int main() {
 	d.push_back(5050);
 	d.pop_front();
 	d.push_back(123);
-	cout << d.front()<<d.back()<<*(d.begin()) << endl;
+	cout << d.front() << d.back() << *(d.begin()) << endl;
 	//copy(d.begin(), d.end(), ostream_iterator<int>(cout, "\n"));
 	
 	
